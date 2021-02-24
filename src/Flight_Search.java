@@ -8,7 +8,7 @@ import org.testng.Assert;
 
 public class Flight_Search {
 	
-	//li element output
+	//Selected button
 	public static void selected(List<WebElement> clS, String button) {
 		int j=0;
 		int k=0;
@@ -22,7 +22,7 @@ public class Flight_Search {
 				
 			}
 		}
-//		System.out.println(j+""+k);
+
 	}
 
 	public static void main(String[] args) throws InterruptedException {
@@ -55,6 +55,29 @@ System.setProperty("webdriver.chrome.driver", "C:\\Users\\Demiurges\\Documents\\
 		
 		List <WebElement> radioButton= driver.findElements(By.cssSelector(roundButton));
 		selected(radioButton,label);
+		
+		
+		//selecting round Trip
+		driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_1")).click();
+		selected(radioButton,label);
+		
+		//from to destination selecting
+		driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+		
+		driver.findElement(By.xpath("//a[@value='BLR']")).click();
+		Thread.sleep(1000l);
+
+		//selecting destination
+		driver.findElement(By.xpath("//div[@id='glsctl00_mainContent_ddl_destinationStation1_CTNR']//a[@value='IXB']")).click();
+		
+		Thread.sleep(2000l);
+		
+		
+		//calender current date picking
+		driver.findElement(By.cssSelector(".ui-state-default.ui-state-highlight.ui-state-active")).click();
+		
+		
+
 	}
 
 }
