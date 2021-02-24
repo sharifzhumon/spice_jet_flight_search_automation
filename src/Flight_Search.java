@@ -4,19 +4,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 public class Flight_Search {
 	
 	//Selected button
 	public static void selected(List<WebElement> clS, String button) {
-		int j=0;
-		int k=0;
+
 
 		for (WebElement i : clS) {
-			k++;
+		
 			if (i.getAttribute("class").equalsIgnoreCase(button)) {
-				j=1;
+				
 				System.out.println(i.getText() + " is Selected");
 				break;
 				
@@ -25,6 +25,28 @@ public class Flight_Search {
 
 	}
 
+	//Static Dropdown selection
+	public static void statDrop(List<WebElement> clS) throws InterruptedException {
+		Thread.sleep(1000l);
+		int j=0;
+		for (WebElement i : clS) {
+			
+			
+			Select t= new Select(i);
+			if(j==0) {
+				t.selectByIndex(4);
+			} else if (j==1) {
+				t.selectByIndex(1);
+			} else {
+				t.selectByIndex(2);
+			}
+			j++;
+			
+			Thread.sleep(1000l);
+			}
+		}
+
+	
 	public static void main(String[] args) throws InterruptedException {
 		
 System.setProperty("webdriver.chrome.driver", "C:\\Users\\Demiurges\\Documents\\drivers\\chromedriver.exe");
@@ -76,7 +98,26 @@ System.setProperty("webdriver.chrome.driver", "C:\\Users\\Demiurges\\Documents\\
 		//calender current date picking
 		driver.findElement(By.cssSelector(".ui-state-default.ui-state-highlight.ui-state-active")).click();
 		
+		//passenger dropdown selection
+		driver.findElement(By.id("divpaxinfo")).click();
+		List <WebElement> li= driver.findElements(By.xpath("//div[@id='divpaxOptions'] //select[contains(@id,'ctl00_mainContent_ddl')]"));
+		System.out.println(li.size());
+		statDrop(li);
 		
+		//currency dropdown selection
+		List <WebElement> lin= driver.findElements(By.id("ctl00_mainContent_DropDownListCurrency"));
+		System.out.println(lin.size());
+		statDrop(lin);
+		
+		//checkbox
+		driver.findElement(By.id("ctl00_mainContent_chk_friendsandfamily")).click();
+		
+		Thread.sleep(1000l);
+		driver.findElement(By.id("ctl00_mainContent_btn_FindFlights")).click();
+		
+		//url assertion
+		String exp_url_booking= driver.getCurrentUrl();
+		Assert.assertEquals("https://book.spicejet.com/Select.aspx", exp_url_booking);
 
 	}
 
